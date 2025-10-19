@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        
+    steps:
+    # 检出代码
+    - uses: actions/checkout@v3
+    
+    # Ubuntu和macOS上的构建和测试
+    - name: Build and Test (Unix)
+      if: runner.os != 'Windows'
+      run: |
+        echo "=== Building on ${{ runner.os }} ==="
+        make
+        echo "=== Running tests ==="
+        ./matrix
+        
+    # Windows上的构建和测试
+    - name: Build and Test (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        echo "=== Building on Windows ==="
+        g++ -O2 -Wall -std=c++11 -o matrix.exe matrix.cpp
+        echo "=== Running tests ==="
+        ./matrix.exe
