@@ -26,7 +26,7 @@ void test_multiply() {
     vector<vector<int>> B = {{5, 6}, {7, 8}};
     auto C = multiply(A, B);
     
-    assert(C[0][0] == 19 && C[0][1] == 23);
+    assert(C[0][0] == 19 && C[0][1] == 22);
     assert(C[1][0] == 43 && C[1][1] == 50);
     cout << "✓ Test passed!" << endl;
 }
